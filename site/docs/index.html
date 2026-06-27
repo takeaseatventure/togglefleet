@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Docs — ToggleFleet | Ruby gem & REST API for cloud feature flags</title>
+<meta name="description" content="ToggleFleet documentation: install the Ruby gem, configure it, the five gates (boolean, actor, group, % of actors, % of time), and the REST API for any language.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://togglefleet.com/docs">
+<meta property="og:title" content="ToggleFleet Docs — Ruby gem & REST API">
+<meta property="og:description" content="Install, configure, and evaluate feature flags with the ToggleFleet Ruby gem or the REST API.">
+<meta property="og:url" content="https://togglefleet.com/docs">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231B1D24'/%3E%3Crect x='5' y='12' width='22' height='9' rx='4.5' fill='%232FE3B3'/%3E%3Ccircle cx='21.5' cy='16.5' r='5.5' fill='%231B1D24'/%3E%3Ccircle cx='21.5' cy='16.5' r='2.8' fill='%23FFC24B'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Expanded:wght@700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="/tf.css" rel="stylesheet">
+</head>
+<body>
+<header><div class="wrap">
+  <a href="/" class="brand"><span class="m"><svg width="18" height="18" viewBox="0 0 32 32"><rect x="5" y="12" width="22" height="9" rx="4.5" fill="#2FE3B3"/><circle cx="21.5" cy="16.5" r="5.5" fill="#23262F"/><circle cx="21.5" cy="16.5" r="2.8" fill="#FFC24B"/></svg></span>Toggle<b>Fleet</b></a>
+  <nav class="main"><a href="/#gates">Gates</a><a href="/docs">Docs</a><a href="/#pricing">Pricing</a><a href="https://github.com/takeaseatventure/togglefleet-ruby" target="_blank" rel="noopener">GitHub&nbsp;↗</a></nav>
+  <span class="spacer"></span>
+  <a href="/auth/login" class="btn btn-ghost">Sign in</a>
+  <a href="/auth/login" class="btn btn-amber">Start free</a>
+</div></header>
+
+<div class="phead"><div class="wrap">
+  <span class="kicker">Documentation</span>
+  <h1>Ship behind a flag<span class="t"> in five minutes.</span></h1>
+  <p class="lede">Create a flag in the dashboard, grab your environment's SDK key, and check it with one method call. The gem evaluates locally — no network on the hot path — and the same logic is available as a plain REST API for any language.</p>
+</div></div>
+
+<section><div class="wrap">
+  <p class="sec-h">1 · Install</p>
+  <h2>Add the gem</h2>
+  <p>The SDK is open source (MIT) and published on RubyGems.</p>
+  <div class="term"><div class="term-bar"><i></i><i></i><i></i><span style="margin-left:6px">Gemfile</span></div>
+<pre>gem <span class="s">"togglefleet"</span></pre></div>
+  <p>Then <code>bundle install</code>. Source &amp; issues: <a href="https://github.com/takeaseatventure/togglefleet-ruby" target="_blank" rel="noopener">github.com/takeaseatventure/togglefleet-ruby</a>.</p>
+</div></section>
+
+<section><div class="wrap">
+  <p class="sec-h">2 · Configure</p>
+  <h2>One initializer</h2>
+  <p>Each environment (Production, Staging, Development, or any custom one) has its own SDK key, found under <b style="color:var(--ink)">Settings → SDK keys</b> in the dashboard.</p>
+  <div class="term"><div class="term-bar"><i></i><i></i><i></i><span style="margin-left:6px">config/initializers/togglefleet.rb</span></div>
+<pre>ToggleFleet.configure <span class="k">do</span> |c|
+  c.sdk_key          = <span class="s">ENV["TOGGLEFLEET_SDK_KEY"]</span>
+  c.refresh_interval = <span class="m">15</span>     <span class="c"># seconds between background refreshes</span>
+  c.default          = <span class="k">false</span>  <span class="c"># fail-safe value for unknown flags</span>
+<span class="k">end</span>
+
+<span class="c"># groups are decided in YOUR code</span>
+ToggleFleet.register_group(<span class="m">:admins</span>)   { |u| u.admin? }
+ToggleFleet.register_group(<span class="m">:internal</span>) { |u| u.email.end_with?(<span class="s">"@yourco.com"</span>) }
+
+ToggleFleet.start  <span class="c"># initial fetch + background refresh thread</span></pre></div>
+  <p>Then check a flag anywhere — this never blocks on the network:</p>
+  <div class="term"><div class="term-bar"><i></i><i></i><i></i><span style="margin-left:6px">app</span></div>
+<pre><span class="k">if</span> ToggleFleet.enabled?(<span class="m">:checkout_v2</span>, actor: current_user)
+  render <span class="s">"checkout/v2"</span>
+<span class="k">end</span></pre></div>
+</div></section>
+
+<section><div class="wrap">
+  <p class="sec-h">3 · The gates</p>
+  <h2>A flag is on if any gate matches</h2>
+  <p>Evaluated in order — the first match wins. Set any of them per environment in the dashboard.</p>
+  <div class="tbl-card"><table>
+    <thead><tr><th>Gate</th><th>Set it to…</th><th>Effect</th></tr></thead>
+    <tbody>
+      <tr><td><b>Boolean</b></td><td>Fully on</td><td>on for everyone</td></tr>
+      <tr><td><b>Actor</b></td><td>a list of actor IDs</td><td>on for those specific actors</td></tr>
+      <tr><td><b>Group</b></td><td>group names</td><td>on for actors your registered predicate matches</td></tr>
+      <tr><td><b>% of actors</b></td><td>0–100</td><td>sticky — the same actors keep it as you ramp</td></tr>
+      <tr><td><b>% of time</b></td><td>0–100</td><td>random per call</td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+
+<section><div class="wrap">
+  <p class="sec-h">4 · Actors &amp; groups</p>
+  <h2>What counts as an actor</h2>
+  <p>An actor is anything you flag on. The gem derives a stable id: <code>actor.togglefleet_id</code> if defined, else <code>actor.id</code> (works for ActiveRecord out of the box), else the value itself.</p>
+  <div class="term"><div class="term-bar"><i></i><i></i><i></i><span style="margin-left:6px">examples</span></div>
+<pre>ToggleFleet.enabled?(<span class="m">:beta</span>, actor: current_user)   <span class="c"># uses current_user.id</span>
+ToggleFleet.enabled?(<span class="m">:beta</span>, actor: <span class="s">"account_42"</span>)   <span class="c"># a plain string id</span>
+ToggleFleet.enabled?(<span class="m">:beta</span>, actor: user, groups: [<span class="m">:eu</span>])  <span class="c"># explicit groups too</span>
+ToggleFleet.all(actor: current_user)               <span class="c"># { "checkout_v2" =&gt; true, ... }</span></pre></div>
+</div></section>
+
+<section><div class="wrap">
+  <p class="sec-h">5 · REST API</p>
+  <h2>Any language</h2>
+  <p>No Ruby? Authenticate with an environment's SDK key and call the API directly.</p>
+  <h3>GET /v1/evaluate</h3>
+  <p class="muted">Server-side check for one flag. Pass <code>groups</code> when you need the group gate (group membership is otherwise resolved in your app).</p>
+  <div class="term"><div class="term-bar"><i></i><i></i><i></i><span style="margin-left:6px">evaluate one flag</span></div>
+<pre>curl https://togglefleet.com/v1/evaluate \
+  -H <span class="s">"Authorization: Bearer tf_…"</span> \
+  -G --data-urlencode <span class="s">"flag=checkout_v2"</span> \
+     --data-urlencode <span class="s">"actor=dave"</span>
+
+<span class="c"># → { "flag": "checkout_v2", "enabled": true }</span></pre></div>
+  <h3>GET /v1/config</h3>
+  <p class="muted">The whole environment, so you can cache and evaluate locally (this is what the gem does).</p>
+  <div class="term"><div class="term-bar"><i></i><i></i><i></i><span style="margin-left:6px">pull the environment</span></div>
+<pre>curl https://togglefleet.com/v1/config -H <span class="s">"Authorization: Bearer tf_…"</span>
+
+<span class="c"># → { "flags": { "checkout_v2": { "boolean": false,</span>
+<span class="c">#       "percentage_of_actors": 25, "percentage_of_time": 0,</span>
+<span class="c">#       "actors": ["dave"], "groups": ["admins"], "id": "…" } } }</span></pre></div>
+  <p class="muted">Percentage bucketing is byte-identical between the gem and the API, so a sticky rollout is consistent however you evaluate it.</p>
+</div></section>
+
+<section><div class="wrap">
+  <p class="sec-h">Reliability</p>
+  <h2>Built to stay up</h2>
+  <ul>
+    <li><b style="color:var(--ink)">Local evaluation</b> — <code>enabled?</code> never blocks on the network.</li>
+    <li><b style="color:var(--ink)">Conditional refresh</b> — a single background thread polls with an ETag, so an unchanged config costs one <code>304</code> and zero parsing.</li>
+    <li><b style="color:var(--ink)">Fail-safe</b> — if the service is unreachable, the gem serves the last good config; if it never loaded, flags return your configured default.</li>
+    <li><b style="color:var(--ink)">Instrumentation</b> — hook every evaluation: <code>c.on_evaluation = -&gt;(flag, actor, result) { … }</code></li>
+  </ul>
+</div></section>
+
+<footer><div class="wrap">
+  <span class="mono">© 2026 ToggleFleet · cloud feature flags</span>
+  <nav><a href="/">Home</a><a href="/flipper-cloud-alternative">vs Flipper Cloud</a><a href="https://github.com/takeaseatventure/togglefleet-ruby" target="_blank" rel="noopener">GitHub</a><a href="/auth/login">Sign in</a></nav>
+</div></footer>
+</body>
+</html>

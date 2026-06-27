@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flipper Cloud Alternative — ToggleFleet | Flat $15/mo, every gate</title>
+<meta name="description" content="A Flipper Cloud alternative with the same five gates (boolean, actor, group, % of actors, % of time) at a flat $15/mo — versus Flipper Cloud's $49/$149/$299 per-seat tiers. Free tier with 10 flags.">
+<meta name="keywords" content="flipper cloud alternative, cheaper flipper cloud, ruby feature flags, flipper alternative, feature flag service">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://togglefleet.com/flipper-cloud-alternative">
+<meta property="og:title" content="Flipper Cloud Alternative — ToggleFleet, flat $15/mo">
+<meta property="og:description" content="Same five-gate model, flat pricing instead of per-seat. $15/mo unlimited vs Flipper Cloud's $49–299.">
+<meta property="og:url" content="https://togglefleet.com/flipper-cloud-alternative">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231B1D24'/%3E%3Crect x='5' y='12' width='22' height='9' rx='4.5' fill='%232FE3B3'/%3E%3Ccircle cx='21.5' cy='16.5' r='5.5' fill='%231B1D24'/%3E%3Ccircle cx='21.5' cy='16.5' r='2.8' fill='%23FFC24B'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Expanded:wght@700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="/tf.css" rel="stylesheet">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Is ToggleFleet a good Flipper Cloud alternative?","acceptedAnswer":{"@type":"Answer","text":"Yes. ToggleFleet implements the same five-gate model Flipper popularized — boolean, actor, group, percentage of actors, and percentage of time — as a hosted service, but priced flat at $15/month instead of Flipper Cloud's per-seat tiers. It has a Ruby gem, a REST API, multi-tenant orgs, team management, and multiple environments."}},
+{"@type":"Question","name":"How much cheaper is ToggleFleet than Flipper Cloud?","acceptedAnswer":{"@type":"Answer","text":"ToggleFleet is a flat $15/month for unlimited seats. Flipper Cloud charges per seat: $49/month for up to 10 seats, $149/month for up to 25, and $299/month for up to 50 (pricing verified June 2026 from flippercloud.io/pricing). ToggleFleet's free tier also includes 10 flags and unlimited seats, versus Flipper Cloud's free 5 flags and 2 seats."}},
+{"@type":"Question","name":"Is ToggleFleet affiliated with Flipper?","acceptedAnswer":{"@type":"Answer","text":"No. ToggleFleet is an independent service. It implements the same well-known gate concepts that the open-source Flipper gem popularized, but it is a separate product with its own SDK and API."}},
+{"@type":"Question","name":"Do I have to rewrite my code to switch from Flipper Cloud?","acceptedAnswer":{"@type":"Answer","text":"You swap the SDK for the togglefleet gem and point it at your ToggleFleet SDK key. The mental model is identical — the same gates and an enabled? check — so the change is a configuration initializer plus your existing flag checks."}},
+{"@type":"Question","name":"Is there a free tier?","acceptedAnswer":{"@type":"Answer","text":"Yes. ToggleFleet's free plan includes 10 flags, unlimited team members, and unlimited environments, with no credit card required."}}]},
+{"@type":"BreadcrumbList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"ToggleFleet","item":"https://togglefleet.com/"},
+{"@type":"ListItem","position":2,"name":"Flipper Cloud alternative","item":"https://togglefleet.com/flipper-cloud-alternative"}]}]}</script>
+</head>
+<body>
+<header><div class="wrap">
+  <a href="/" class="brand"><span class="m"><svg width="18" height="18" viewBox="0 0 32 32"><rect x="5" y="12" width="22" height="9" rx="4.5" fill="#2FE3B3"/><circle cx="21.5" cy="16.5" r="5.5" fill="#23262F"/><circle cx="21.5" cy="16.5" r="2.8" fill="#FFC24B"/></svg></span>Toggle<b>Fleet</b></a>
+  <nav class="main"><a href="/#gates">Gates</a><a href="/docs">Docs</a><a href="/#pricing">Pricing</a><a href="https://github.com/takeaseatventure/togglefleet-ruby" target="_blank" rel="noopener">GitHub&nbsp;↗</a></nav>
+  <span class="spacer"></span>
+  <a href="/auth/login" class="btn btn-ghost">Sign in</a>
+  <a href="/auth/login" class="btn btn-amber">Start free</a>
+</div></header>
+
+<div class="phead"><div class="wrap">
+  <span class="kicker">Flipper Cloud alternative</span>
+  <h1>Every gate Flipper has.<br><span class="t">A flat bill</span> instead of a per-seat one.</h1>
+  <p class="lede">ToggleFleet implements the same five-gate model — <b>boolean, actor, group, % of actors, % of time</b> — as a hosted service. The difference is the price: <b>$15/mo flat for your whole team</b>, versus Flipper Cloud's $49 → $299 per-seat tiers. Independent product, same mental model, drop-in Ruby gem.</p>
+</div></div>
+
+<section><div class="wrap">
+  <p class="sec-h">Head to head</p>
+  <h2>ToggleFleet vs Flipper Cloud</h2>
+  <p class="muted">Flipper Cloud pricing verified June 2026 from flippercloud.io/pricing.</p>
+  <div class="tbl-card"><table>
+    <thead><tr><th></th><th class="us">ToggleFleet</th><th class="them">Flipper Cloud</th></tr></thead>
+    <tbody>
+      <tr><td>Free tier</td><td class="us">10 flags · unlimited seats</td><td class="them">5 flags · 2 seats</td></tr>
+      <tr><td>Entry paid plan</td><td class="us"><b>$15/mo</b> · unlimited seats</td><td class="them">$49/mo · up to 10 seats</td></tr>
+      <tr><td>Team of 25</td><td class="us"><b>$15/mo</b></td><td class="them">$149/mo</td></tr>
+      <tr><td>Team of 50</td><td class="us"><b>$15/mo</b></td><td class="them">$299/mo</td></tr>
+      <tr><td>Pricing model</td><td class="us">flat — no per-seat fees</td><td class="them">per seat</td></tr>
+      <tr><td>Gates</td><td class="us">all five</td><td class="them">all five</td></tr>
+      <tr><td>Ruby gem + REST API</td><td class="us">✓ (open source, MIT)</td><td class="them">✓ Ruby</td></tr>
+      <tr><td>Environments</td><td class="us">prod / staging / dev + custom</td><td class="them">✓</td></tr>
+      <tr><td>Teams &amp; roles</td><td class="us">✓</td><td class="them">✓</td></tr>
+    </tbody>
+  </table></div>
+  <p><a href="/auth/login" class="btn btn-amber" style="margin-top:8px">Start free →</a></p>
+</div></section>
+
+<section><div class="wrap">
+  <p class="sec-h">Migrating</p>
+  <h2>Same model, one initializer</h2>
+  <p>You're already thinking in gates, so there's nothing conceptual to relearn — swap the SDK for the <code>togglefleet</code> gem, point it at your environment's key, and keep your <code>enabled?</code> checks.</p>
+  <div class="term"><div class="term-bar"><i></i><i></i><i></i><span style="margin-left:6px">config/initializers/togglefleet.rb</span></div>
+<pre>ToggleFleet.configure { |c| c.sdk_key = <span class="s">ENV["TOGGLEFLEET_SDK_KEY"]</span> }
+ToggleFleet.register_group(<span class="m">:admins</span>) { |u| u.admin? }
+ToggleFleet.start
+
+<span class="k">if</span> ToggleFleet.enabled?(<span class="m">:checkout_v2</span>, actor: current_user)
+  <span class="c"># …</span>
+<span class="k">end</span></pre></div>
+  <p class="muted">Full setup in the <a href="/docs">docs</a>. The gem evaluates locally (no network on the hot path) and fails safe if the service is unreachable.</p>
+</div></section>
+
+<section><div class="wrap">
+  <p class="sec-h">FAQ</p>
+  <h2>Flipper Cloud alternative — questions</h2>
+  <div class="faq">
+    <div class="qa"><h3>Is ToggleFleet a good Flipper Cloud alternative?</h3><p>Yes — it implements the same five gates as a hosted service, priced flat at $15/mo instead of per-seat. Ruby gem, REST API, teams, and multiple environments included.</p></div>
+    <div class="qa"><h3>How much cheaper is it?</h3><p>$15/mo flat for unlimited seats, versus Flipper Cloud's $49 (10 seats), $149 (25), and $299 (50). Verified June 2026.</p></div>
+    <div class="qa"><h3>Is ToggleFleet affiliated with Flipper?</h3><p>No. It's an independent product that implements the same well-known gate concepts the open-source Flipper gem popularized.</p></div>
+    <div class="qa"><h3>Do I have to rewrite my code?</h3><p>No rewrite — swap to the <code>togglefleet</code> gem and point it at your key. Same gates, same <code>enabled?</code> mental model.</p></div>
+    <div class="qa"><h3>Is there a free tier?</h3><p>Yes — 10 flags, unlimited members, unlimited environments, no card.</p></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <span class="mono">© 2026 ToggleFleet · cloud feature flags</span>
+  <nav><a href="/">Home</a><a href="/docs">Docs</a><a href="/#pricing">Pricing</a><a href="/auth/login">Sign in</a></nav>
+</div></footer>
+</body>
+</html>

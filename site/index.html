@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ToggleFleet — cloud feature flags for Ruby. Every Flipper gate, flat $15/mo.</title>
+<meta name="description" content="Cloud feature flags with all five Flipper gates — boolean, actor, group, % of actors, % of time. Multi-tenant, team management, prod/staging/dev. Flat $15/mo, not Flipper Cloud's $49.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:title" content="ToggleFleet — cloud feature flags, flat $15/mo">
+<meta property="og:description" content="Every Flipper gate. A real free tier. A tenth of the per-seat bill. Drop-in Ruby gem + REST API.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://togglefleet.com/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://togglefleet.com/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231B1D24'/%3E%3Crect x='5' y='12' width='22' height='9' rx='4.5' fill='%232FE3B3'/%3E%3Ccircle cx='21.5' cy='16.5' r='5.5' fill='%231B1D24'/%3E%3Ccircle cx='21.5' cy='16.5' r='2.8' fill='%23FFC24B'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Archivo+Expanded:wght@700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"ToggleFleet","applicationCategory":"DeveloperApplication","operatingSystem":"Any","offers":[{"@type":"Offer","name":"Free","price":"0","priceCurrency":"USD","description":"Up to 10 flags, unlimited environments and seats"},{"@type":"Offer","name":"Pro","price":"15","priceCurrency":"USD","description":"Unlimited flags, members, environments — flat, no per-seat fees"}],"description":"Cloud feature flags for Ruby with all five Flipper gates, multi-tenant orgs and team management."}</script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --housing:#1B1D24; --panel:#23262F; --panel-2:#2A2E39; --raise:#30343F;
+  --seam:#3A3F4D; --seam-2:#4A5063;
+  --amber:#FFC24B; --amber-d:#F0A92E; --teal:#2FE3B3; --teal-d:#1FC79B;
+  --dim:#5C6273; --ink:#ECEDF2; --muted:#969CAD; --faint:#6B7180;
+  --disp:'Archivo Expanded','Archivo',sans-serif; --body:'Hanken Grotesk',system-ui,sans-serif; --mono:'Space Mono',ui-monospace,monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--housing);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(rgba(255,255,255,0.022) 1px,transparent 1px);background-size:22px 22px}
+.wrap{max-width:1140px;margin:0 auto;padding:0 28px}
+a{color:inherit;text-decoration:none}
+.mono{font-family:var(--mono)}
+.lbl{font-family:var(--mono);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--faint)}
+/* toggle mark */
+.tmark{width:30px;height:30px;border-radius:8px;background:var(--housing);border:1px solid var(--seam);display:grid;place-items:center;flex-shrink:0}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(27,29,36,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--seam)}
+header .wrap{display:flex;align-items:center;gap:26px;height:64px}
+.brand{display:flex;align-items:center;gap:11px;font-family:var(--disp);font-weight:800;font-size:1.04rem;letter-spacing:-.01em}
+.brand b{color:var(--teal);font-weight:800}
+nav.main{display:flex;gap:6px;margin-left:8px}
+nav.main a{font-family:var(--mono);font-size:.78rem;color:var(--muted);padding:8px 12px;border-radius:7px}
+nav.main a:hover{color:var(--ink);background:var(--panel)}
+.spacer{flex:1}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-weight:700;font-size:.8rem;letter-spacing:.02em;padding:10px 18px;border-radius:9px;border:1px solid var(--seam-2);background:var(--panel);color:var(--ink);cursor:pointer;transition:transform .08s,background .15s,border-color .15s}
+.btn:hover{transform:translateY(-1px);border-color:var(--dim)}
+.btn-amber{background:var(--amber);color:#241A05;border-color:var(--amber)}
+.btn-amber:hover{background:var(--amber-d);border-color:var(--amber-d)}
+.btn-ghost{background:transparent}
+.btn-lg{padding:14px 24px;font-size:.86rem}
+/* hero */
+.hero{padding:78px 0 64px;position:relative}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:54px;align-items:center}
+.kicker{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);border:1px solid var(--seam);background:var(--panel);padding:6px 13px;border-radius:30px;margin-bottom:26px}
+.led{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 0 rgba(47,227,179,.5);animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(47,227,179,.45)}70%{box-shadow:0 0 0 7px rgba(47,227,179,0)}100%{box-shadow:0 0 0 0 rgba(47,227,179,0)}}
+h1{font-family:var(--disp);font-weight:900;font-size:clamp(2.3rem,4.8vw,3.7rem);line-height:1.02;letter-spacing:-.02em;margin-bottom:22px}
+h1 .a{color:var(--amber)} h1 .t{color:var(--teal)}
+.lede{font-size:1.12rem;color:var(--muted);max-width:33em;margin-bottom:30px}
+.lede b{color:var(--ink);font-weight:600}
+.hero-cta{display:flex;gap:13px;flex-wrap:wrap;align-items:center}
+.note{font-family:var(--mono);font-size:.74rem;color:var(--faint);margin-top:16px}
+/* instrument panel (signature) */
+.unit{background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid var(--seam-2);border-radius:16px;padding:22px;position:relative;box-shadow:0 30px 60px -28px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.04)}
+.unit::before,.unit::after{content:"";position:absolute;width:5px;height:5px;border-radius:50%;background:var(--seam);top:11px}
+.unit::before{left:11px}.unit::after{right:11px}
+.unit-head{display:flex;align-items:center;justify-content:space-between;padding-bottom:15px;margin-bottom:18px;border-bottom:1px solid var(--seam)}
+.flagid{font-family:var(--mono);font-size:.92rem;color:var(--ink);font-weight:700}
+.flagid::before{content:"› ";color:var(--teal)}
+.statusled{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.statusled .dot{width:9px;height:9px;border-radius:50%;background:var(--dim);transition:background .2s,box-shadow .2s}
+.statusled.on .dot{background:var(--teal);box-shadow:0 0 9px var(--teal)}
+.statusled.part .dot{background:var(--amber);box-shadow:0 0 9px var(--amber)}
+.ctl{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 0}
+.ctl .name{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+.ctl .name strong{color:var(--ink);font-weight:700}
+/* the switch */
+.switch{width:62px;height:32px;border-radius:18px;background:var(--housing);border:1px solid var(--seam-2);position:relative;cursor:pointer;flex-shrink:0;transition:background .2s,border-color .2s}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#C9CDD8;box-shadow:0 2px 4px rgba(0,0,0,.5);transition:transform .22s cubic-bezier(.5,1.6,.4,1),background .2s}
+.switch.on{background:var(--teal-d);border-color:var(--teal)}
+.switch.on::after{transform:translateX(30px);background:#0C1512}
+/* slider */
+.dial{margin:6px 0 4px}
+.dial-row{display:flex;align-items:center;gap:14px}
+input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:6px;border-radius:6px;background:linear-gradient(90deg,var(--amber) var(--p,12%),var(--housing) var(--p,12%));border:1px solid var(--seam);outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--amber);border:2px solid #241A05;cursor:grab;box-shadow:0 2px 6px rgba(0,0,0,.5)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--amber);border:2px solid #241A05;cursor:grab}
+.readout{font-family:var(--mono);font-weight:700;font-size:1rem;color:var(--amber);min-width:48px;text-align:right}
+/* user grid */
+.gridwrap{margin-top:16px;padding-top:16px;border-top:1px solid var(--seam)}
+.grid100{display:grid;grid-template-columns:repeat(20,1fr);gap:4px;margin-top:10px}
+.cell{aspect-ratio:1;border-radius:2px;background:var(--housing);border:1px solid #2D313C;transition:background .14s,border-color .14s}
+.cell.on{background:var(--teal);border-color:var(--teal)}
+.cell.actor{background:var(--amber);border-color:var(--amber)}
+.gridcap{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.72rem;color:var(--muted);margin-top:11px}
+.gridcap b{color:var(--teal)}
+/* section */
+section.band{padding:72px 0;border-top:1px solid var(--seam)}
+.sec-h{font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);margin-bottom:14px}
+.sec-t{font-family:var(--disp);font-weight:800;font-size:clamp(1.6rem,3vw,2.3rem);letter-spacing:-.015em;margin-bottom:14px;max-width:18em}
+.sec-d{color:var(--muted);max-width:40em;margin-bottom:36px}
+/* gates */
+.gates{display:flex;flex-direction:column;border:1px solid var(--seam);border-radius:14px;overflow:hidden;background:var(--panel)}
+.gate{display:grid;grid-template-columns:46px 1fr auto;gap:18px;align-items:center;padding:20px 22px;border-bottom:1px solid var(--seam)}
+.gate:last-child{border-bottom:none}
+.gate .num{font-family:var(--mono);font-size:.78rem;color:var(--teal);border:1px solid var(--seam-2);border-radius:7px;height:34px;display:grid;place-items:center;font-weight:700}
+.gate h3{font-family:var(--mono);font-size:.96rem;font-weight:700;margin-bottom:3px}
+.gate p{font-size:.92rem;color:var(--muted);max-width:46em}
+.gate .ex{font-family:var(--mono);font-size:.76rem;color:var(--amber);white-space:nowrap}
+@media(max-width:680px){.gate .ex{display:none}}
+/* code */
+.codegrid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.term{background:#15171D;border:1px solid var(--seam);border-radius:13px;overflow:hidden}
+.term-bar{display:flex;align-items:center;gap:7px;padding:11px 15px;border-bottom:1px solid var(--seam);font-family:var(--mono);font-size:.74rem;color:var(--faint)}
+.term-bar i{width:10px;height:10px;border-radius:50%;background:var(--seam-2);display:inline-block}
+.term-bar i:nth-child(1){background:#E0625A}.term-bar i:nth-child(2){background:var(--amber)}.term-bar i:nth-child(3){background:var(--teal)}
+.term pre{padding:18px 18px;font-family:var(--mono);font-size:.82rem;line-height:1.85;color:#C7CCD8;overflow-x:auto}
+.term .k{color:var(--amber)}.term .s{color:var(--teal)}.term .c{color:var(--faint)}.term .m{color:#8AB4FF}
+@media(max-width:760px){.codegrid{grid-template-columns:1fr}}
+/* pricing */
+.prices{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:760px}
+.price{background:var(--panel);border:1px solid var(--seam);border-radius:15px;padding:28px}
+.price.feat{border-color:var(--amber);box-shadow:0 0 0 1px var(--amber),0 24px 50px -30px rgba(255,194,75,.4)}
+.price .tier{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.price .amt{font-family:var(--disp);font-weight:800;font-size:2.6rem;margin:8px 0 2px;letter-spacing:-.02em}
+.price .amt span{font-family:var(--body);font-size:1rem;color:var(--muted);font-weight:500}
+.price ul{list-style:none;margin:20px 0 24px}
+.price li{font-size:.92rem;color:var(--muted);padding:7px 0 7px 26px;position:relative}
+.price li::before{content:"";position:absolute;left:0;top:13px;width:11px;height:3px;border-radius:2px;background:var(--teal)}
+.price .btn{width:100%;justify-content:center}
+.compare{font-family:var(--mono);font-size:.8rem;color:var(--muted);margin-top:24px;max-width:760px}
+.compare b{color:var(--ink)}
+.strike{color:var(--faint);text-decoration:line-through}
+/* footer */
+footer{border-top:1px solid var(--seam);padding:40px 0 56px;margin-top:20px}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+footer .mono{font-size:.76rem;color:var(--faint)}
+footer nav a{font-family:var(--mono);font-size:.78rem;color:var(--muted);margin-left:18px}
+@media(max-width:860px){.hero .wrap{grid-template-columns:1fr;gap:40px}.prices{grid-template-columns:1fr}nav.main{display:none}}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <a href="/" class="brand"><span class="tmark"><svg width="30" height="30" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#23262F"/><rect x="5" y="12" width="22" height="9" rx="4.5" fill="#2FE3B3"/><circle cx="21.5" cy="16.5" r="5.5" fill="#1B1D24"/><circle cx="21.5" cy="16.5" r="2.8" fill="#FFC24B"/></svg></span>Toggle<b>Fleet</b></a>
+  <nav class="main"><a href="#gates">Gates</a><a href="#use">Gem &amp; API</a><a href="#pricing">Pricing</a><a href="/docs">Docs</a><a href="https://github.com/takeaseatventure/togglefleet-ruby" target="_blank" rel="noopener">GitHub&nbsp;↗</a></nav>
+  <span class="spacer"></span>
+  <a href="/auth/login" class="btn btn-ghost">Sign in</a>
+  <a href="/auth/login" class="btn btn-amber">Start free</a>
+</div></header>
+
+<section class="hero"><div class="wrap">
+  <div>
+    <span class="kicker"><span class="led"></span>Cloud feature flags · Ruby-first</span>
+    <h1>Flip it for <span class="t">everyone</span>.<br>Or <span class="a">5%</span>. Or just<br>Dave in QA.</h1>
+    <p class="lede">ToggleFleet is cloud feature flags with <b>all five Flipper gates</b> — boolean, actor, group, % of actors, % of time — plus teams, multiple environments, and a drop-in Ruby gem. <b>Flat $15/mo.</b> Not Flipper Cloud's $49-and-up per-seat bill.</p>
+    <div class="hero-cta">
+      <a href="/auth/login" class="btn btn-amber btn-lg">Start flipping — free</a>
+      <a href="#use" class="btn btn-ghost btn-lg">See the gem →</a>
+    </div>
+    <p class="note">Free tier: 10 flags · unlimited seats &amp; environments · no card.</p>
+  </div>
+
+  <!-- SIGNATURE: live flag control unit -->
+  <div class="unit" id="unit">
+    <div class="unit-head">
+      <span class="flagid">checkout_v2</span>
+      <span class="statusled part" id="status"><span class="dot"></span><span id="statustxt">Partial</span></span>
+    </div>
+    <div class="ctl">
+      <span class="name"><strong>Boolean</strong> — on for everyone</span>
+      <div class="switch" id="boolsw" role="switch" aria-checked="false" tabindex="0"></div>
+    </div>
+    <div class="ctl" style="display:block">
+      <div style="display:flex;justify-content:space-between;align-items:center"><span class="name"><strong>% of actors</strong> — sticky rollout</span><span class="readout" id="pctout">12%</span></div>
+      <div class="dial"><div class="dial-row"><input type="range" id="pct" min="0" max="100" value="12" aria-label="percentage of actors"></div></div>
+    </div>
+    <div class="gridwrap">
+      <span class="lbl">Live · 100 users in production</span>
+      <div class="grid100" id="grid" aria-hidden="true"></div>
+      <div class="gridcap"><span>amber = targeted actor (<b style="color:var(--amber)">dave</b>)</span><span><b id="count">12</b> / 100 see it</span></div>
+    </div>
+  </div>
+</div></section>
+
+<section class="band" id="gates"><div class="wrap">
+  <p class="sec-h">The control surface</p>
+  <h2 class="sec-t">Five gates. A flag is on if any of them says so.</h2>
+  <p class="sec-d">Exactly the model Flipper popularized — evaluated in order, the first match wins. ToggleFleet implements all five, server-stored and read through the SDK so your app stays fast.</p>
+  <div class="gates">
+    <div class="gate"><span class="num">01</span><div><h3>Boolean</h3><p>The master switch. Flip it and the feature is live for every actor, everywhere.</p></div><span class="ex">enable :checkout_v2</span></div>
+    <div class="gate"><span class="num">02</span><div><h3>Actor</h3><p>Turn it on for specific users, accounts, or teams by ID — your beta list, your own account, Dave in QA.</p></div><span class="ex">enable_actor :checkout_v2, dave</span></div>
+    <div class="gate"><span class="num">03</span><div><h3>Group</h3><p>Enable for anyone matching a rule you register in code — admins, internal staff, EU customers.</p></div><span class="ex">enable_group :checkout_v2, :admins</span></div>
+    <div class="gate"><span class="num">04</span><div><h3>% of actors</h3><p>Sticky percentage rollout. The same users keep the feature as you ramp 1% → 100% — no flicker.</p></div><span class="ex">enable_percentage_of_actors 25</span></div>
+    <div class="gate"><span class="num">05</span><div><h3>% of time</h3><p>Random on a per-call basis — handy for load-testing a path or sampling without pinning to a user.</p></div><span class="ex">enable_percentage_of_time 5</span></div>
+  </div>
+</div></section>
+
+<section class="band" id="use"><div class="wrap">
+  <p class="sec-h">Wire it in</p>
+  <h2 class="sec-t">A Ruby gem, or a plain REST call.</h2>
+  <p class="sec-d">Drop the gem in and check flags with one method — it caches and evaluates locally, so there's no network call on the hot path. Not on Ruby? Hit the JSON API directly from anything. The gem is open source (MIT) — <a href="https://github.com/takeaseatventure/togglefleet-ruby" target="_blank" rel="noopener" style="color:var(--teal);border-bottom:1px solid rgba(47,227,179,.3)">view the source on GitHub →</a></p>
+  <div class="codegrid">
+    <div class="term"><div class="term-bar"><i></i><i></i><i></i><span style="margin-left:6px">Gemfile + app.rb</span></div>
+<pre><span class="c"># Gemfile</span>
+gem <span class="s">"togglefleet"</span>
+
+<span class="c"># config/initializers/togglefleet.rb</span>
+ToggleFleet.configure <span class="k">do</span> |c|
+  c.sdk_key = <span class="s">ENV["TOGGLEFLEET_KEY"]</span>
+<span class="k">end</span>
+ToggleFleet.register_group(<span class="m">:admins</span>) { |u| u.admin? }
+
+<span class="c"># anywhere in your app</span>
+<span class="k">if</span> ToggleFleet.enabled?(<span class="m">:checkout_v2</span>, actor: current_user)
+  render <span class="s">"checkout/v2"</span>
+<span class="k">end</span></pre></div>
+    <div class="term"><div class="term-bar"><i></i><i></i><i></i><span style="margin-left:6px">REST API · any language</span></div>
+<pre><span class="c"># evaluate one flag for an actor</span>
+curl https://togglefleet.com/v1/evaluate \
+  -H <span class="s">"Authorization: Bearer tf_live_…"</span> \
+  -G --data-urlencode <span class="s">"flag=checkout_v2"</span> \
+     --data-urlencode <span class="s">"actor=dave"</span>
+
+<span class="c"># → { "flag":"checkout_v2", "enabled":true }</span>
+
+<span class="c"># or pull the whole environment to cache</span>
+curl https://togglefleet.com/v1/config \
+  -H <span class="s">"Authorization: Bearer tf_live_…"</span></pre></div>
+  </div>
+</div></section>
+
+<section class="band" id="pricing"><div class="wrap">
+  <p class="sec-h">Pricing</p>
+  <h2 class="sec-t">Flat. No per-seat tax.</h2>
+  <p class="sec-d">Flipper Cloud bills by seats — $49/mo for 10, $149 for 25, $299 for 50. ToggleFleet is one flat price for your whole team. (Flipper Cloud pricing verified June 2026.)</p>
+  <div class="prices">
+    <div class="price"><div class="tier">Free</div><div class="amt">$0<span>/forever</span></div>
+      <ul><li>Up to 10 flags</li><li>Unlimited environments</li><li>Unlimited team members</li><li>All five gates + REST API</li><li>Ruby gem</li></ul>
+      <a href="/auth/login" class="btn btn-ghost">Start free →</a></div>
+    <div class="price feat"><div class="tier">Pro · most popular</div><div class="amt">$15<span>/month flat</span></div>
+      <ul><li>Unlimited flags</li><li>Unlimited environments &amp; seats</li><li>Audit-friendly change history</li><li>Priority support</li><li>No per-seat fees, ever</li></ul>
+      <a href="/auth/login" class="btn btn-amber">Start free, upgrade later →</a></div>
+  </div>
+  <p class="compare">vs Flipper Cloud at the same team size: <b>10 seats</b> — <span class="strike">$49/mo</span> → <b style="color:var(--teal)">$15</b> · <b>25 seats</b> — <span class="strike">$149/mo</span> → <b style="color:var(--teal)">$15</b> · <b>50 seats</b> — <span class="strike">$299/mo</span> → <b style="color:var(--teal)">$15</b></p>
+</div></section>
+
+<footer><div class="wrap">
+  <span class="mono">© 2026 ToggleFleet · cloud feature flags</span>
+  <nav><a href="#gates">Gates</a><a href="#use">Gem &amp; API</a><a href="#pricing">Pricing</a><a href="/auth/login">Sign in</a></nav>
+</div></footer>
+
+<script>
+(function(){
+  // deterministic, sticky hash (cyrb53) — same user keeps the flag as % climbs
+  function hash(str){let h1=0xdeadbeef,h2=0x41c6ce57;for(let i=0;i<str.length;i++){const c=str.charCodeAt(i);h1=Math.imul(h1^c,2654435761);h2=Math.imul(h2^c,1597334677);}h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);return (h1>>>0)%100;}
+  const grid=document.getElementById('grid'),pct=document.getElementById('pct'),pctout=document.getElementById('pctout'),
+        count=document.getElementById('count'),boolsw=document.getElementById('boolsw'),status=document.getElementById('status'),statustxt=document.getElementById('statustxt');
+  const N=100, DAVE=37; // dave is a targeted actor (always on)
+  const cells=[]; for(let i=0;i<N;i++){const d=document.createElement('div');d.className='cell';grid.appendChild(d);cells.push(d);}
+  let bool=false;
+  function render(){
+    const p=+pct.value; pctout.textContent=p+'%'; pct.style.setProperty('--p',p+'%');
+    let on=0;
+    for(let i=0;i<N;i++){
+      const actor = i===DAVE;
+      const lit = bool || actor || hash('checkout_v2:user'+i) < p;
+      cells[i].className='cell'+(lit?(actor&&!bool?' actor':' on'):'');
+      if(lit) on++;
+    }
+    count.textContent=on;
+    if(bool){status.className='statusled on';statustxt.textContent='On';}
+    else if(on>0){status.className='statusled part';statustxt.textContent='Partial';}
+    else{status.className='statusled';statustxt.textContent='Off';}
+  }
+  pct.addEventListener('input',render);
+  function flip(){bool=!bool;boolsw.classList.toggle('on',bool);boolsw.setAttribute('aria-checked',bool);render();}
+  boolsw.addEventListener('click',flip);
+  boolsw.addEventListener('keydown',e=>{if(e.key===' '||e.key==='Enter'){e.preventDefault();flip();}});
+  render();
+})();
+</script>
+</body>
+</html>

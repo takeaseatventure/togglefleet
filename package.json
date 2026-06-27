@@ -1,0 +1,12 @@
+{
+  "name": "togglefleet",
+  "version": "1.0.0",
+  "private": true,
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "dependencies": {
+    "pg": "^8.11.5",
+    "openid-client": "^5.6.5",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
