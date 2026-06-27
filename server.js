@@ -146,7 +146,21 @@ input::placeholder{color:var(--faint)}input[type=number]{width:74px}input:focus,
 .envtabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}.envtabs a{font-family:var(--mono);padding:7px 13px;border-radius:8px;background:var(--panel);border:1px solid var(--seam);font-size:.78rem;color:var(--muted)}.envtabs a.on{background:var(--amber);color:#241A05;border-color:var(--amber);font-weight:700}.envtabs a.add{border-style:dashed;color:var(--faint)}
 h3{font-family:var(--mono);font-weight:700}
 form.inline{display:inline}
-:focus-visible{outline:2px solid var(--amber);outline-offset:2px}`;
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+@media(max-width:680px){
+.wrap{padding:0 16px}
+.top .wrap{flex-wrap:wrap;height:auto;gap:8px 10px;padding:9px 0}
+.brand{margin-right:auto}
+.spacer{display:none}
+.nav{order:10;width:100%;margin-left:0;overflow-x:auto}
+.orgsel{max-width:150px}
+table{font-size:.8rem;width:100%}th,td{padding:9px 5px}
+td b,td .muted,td .code{overflow-wrap:anywhere}
+.btn-sm{padding:5px 8px;font-size:.68rem}
+.pill{font-size:.6rem;padding:2px 6px}
+h1{font-size:1.3rem}
+.fc-body{gap:14px}
+}`;
 
 function layout(title, user, orgs, curOrg, nav, body) {
   const orgOpts = orgs.map(o => `<option value="${o.id}"${o.id===curOrg.id?' selected':''}>${esc(o.name)}</option>`).join('');
